@@ -1,0 +1,27 @@
+apiVersion: skaffold/v2beta17
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infrastructure/kubernates/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: fabianosbaratta/api
+      context: api
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: fabianosbaratta/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+

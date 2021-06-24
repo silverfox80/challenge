@@ -1,0 +1,5 @@
+doc
+client/node_modules
+client/.next
+api/node_modules
+install_notes.txt

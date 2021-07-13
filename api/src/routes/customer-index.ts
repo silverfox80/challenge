@@ -7,20 +7,32 @@ const router = express.Router();
 
 router.get('/api/customers/', currentUser, requireAuth, async (req: Request, res: Response) => {
   
-  const filters = {}; //{active:true}
-  const customers = await Customer.find(filters).sort( { "lastname": -1 } );    
-  
+  let pageNumber:number = parseInt ( req.query.page as string );
+  //let search:string = req.query.search as string;
+
+  const PER_PAGE = 10;
+  const filters = {
+    active:true
+  };
+
+  const customers = await Customer.find(filters)
+                                  .sort( { "lastname": -1 } )
+                                  .skip( pageNumber > 1 ? ( ( pageNumber - 1 ) * PER_PAGE ) : 0 )
+                                  .limit(PER_PAGE);  
+    
+  let countTotal = await Customer.countDocuments();
+  let countWithConstraints = Math.ceil(countTotal / PER_PAGE);
+
   res.send({ 
     meta: {
       success: true,
-      totalCount: 2,
-      pageCount: 1,
-      currentPage: 1,
-      perPage: 20
+      totalCount: countTotal,
+      pageCount: countWithConstraints,
+      currentPage: pageNumber,
+      perPage: PER_PAGE
     },
     result: customers
   });
-
   
 });
 

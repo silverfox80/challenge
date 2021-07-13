@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import useRequest from '../hooks/use-request';
 
 export default ({ currentUser }) => {
     const links = [
@@ -15,9 +14,10 @@ export default ({ currentUser }) => {
         </li>
         );
     });
-    const [query, setQuery] = useState('');
-    const filterHandler = () => {
-        alert('Filter out the client table '+query);
+    const [querySearch, setQuerySearch] = useState('');
+    
+    const filterHandler = () => {        
+        alert('Filter out the client table '+querySearch);        
     }
 
     return (
@@ -26,8 +26,8 @@ export default ({ currentUser }) => {
             
             <div className="d-flex align-items-right">
                 <input
-                    value={query}
-                    onChange= {e => setQuery(e.target.value)} 
+                    value={querySearch}
+                    onChange= {e => setQuerySearch(e.target.value)} 
                     className="form-control" />
                 <button onClick={filterHandler} className="btn btn-primary btn-sm mx-2">Filter List</button>
             </div>

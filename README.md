@@ -68,8 +68,8 @@ minikube addons enable ingress
 ### Set a secret on kubernates to store the jwt key
 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=****
 
-### Launch Scaffold 
-scaffold dev
+### Launch Skaffold 
+skaffold dev
 
 #### - check with "kubectl get ing" and "kubectl get pods -n kube-system | grep nginx-ingress-controller"
 #### - the host later created emmachallenge.dev in /etc/hosts must point to the load balancer IP received from kubectl command

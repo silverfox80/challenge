@@ -8,6 +8,7 @@ const start = async () => {
     }
 
     try{
+        //mongodb://emmachallenge.dev:32122 for external connections - MongoDb ver. 4.4
         await mongoose.connect('mongodb://api-mongo-srv:27017/api', {
             useNewUrlParser: true,
             useUnifiedTopology: true,

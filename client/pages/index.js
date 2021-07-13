@@ -31,7 +31,7 @@ const HomePage = (props) => {
     
     const paginationHandler = (page) => {
         const currentPath = router.pathname;
-        const currentQuery = router.query;
+        let currentQuery = router.query;
         currentQuery.page = page.selected + 1;
 
         router.push({
@@ -93,14 +93,16 @@ const HomePage = (props) => {
 
             <ReactPaginate
                 previousLabel={'previous'}
+                previousClassName={'fw-bold mx-1 align-middle'}
                 nextLabel={'next'}
+                nextClassName={'fw-bold mx-1 align-middle'}
                 breakLabel={'...'}
-                breakClassName={'break-me'}
+                breakClassName={'mx-1'}
+                pageClassName={'list-group-item'}
                 activeClassName={'active'}
-                containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
+                containerClassName={'list-group list-group-horizontal'}
 
-                initialPage={props.currentPage - 1}
+                initialPage={props.currentPage}
                 pageCount={props.pageCount}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
@@ -114,7 +116,7 @@ const HomePage = (props) => {
 // anything we return from it (object), will be passed to the component as a prop
 HomePage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
-        const page = 1;
+        const page = context.query.page;
         const customers = await client.get(`/api/customers?page=${page}`);
         return {
             totalCount: customers.data.meta.totalCount,

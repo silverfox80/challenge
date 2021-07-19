@@ -18,7 +18,9 @@ const HomePage = (props) => {
         Customers fetching happens after page navigation, 
         so we need to switch Loading state on Router events.
     */
-    useEffect(() => { //After the component is mounted set router event handlers
+    useEffect(() => { 
+        //After the component is mounted set router event handlers - 
+        //UseEffect (that belongs to the Hooks system) allows to use lifecycle methods in a functional component
         router.events.on('routeChangeStart', startLoading); 
         router.events.on('routeChangeComplete', stopLoading);
 
@@ -28,17 +30,15 @@ const HomePage = (props) => {
         }
     }, [])
 
-    
     const paginationHandler = (page) => {
         const currentPath = router.pathname;
         let currentQuery = router.query;
-        currentQuery.page = page.selected + 1;
-
+        currentQuery.page = !currentQuery.page ? 1 : page.selected + 1;
+        
         router.push({
             pathname: currentPath,
             query: currentQuery,
         });
-
     };
     		
     //Conditional rendering of the posts list or loading indicator
@@ -62,6 +62,10 @@ const HomePage = (props) => {
         );
     });
 
+    const links = [
+        { label: 'Add a new client', href: '/customer/create', icon:'person-plus' }
+    ];
+
     let content = null;
     if (isLoading)
         content = <tr><td>Loading...</td></tr>;
@@ -69,11 +73,31 @@ const HomePage = (props) => {
                 //Generating customers list
         content = customerList;
     }
+    const [querySearch, setQuerySearch] = useState('');
     
+    const filterHandler = async (value) => {  
+        setQuerySearch(value);      
+        
+        const currentPath = router.pathname;
+        const currentQuery = { page: 1, search: value};
+        
+        router.push({
+            pathname: currentPath,
+            query: currentQuery,
+        }); 
+    }
+
     return (
         <div>        
             <h1>Client List</h1>
-            <CustomerMenu />
+            <CustomerMenu items={links}/>
+            <div className="d-flex flex-row-reverse bd-highlight">
+                <input
+                    value={querySearch}
+                    placeholder="filter lastname here"
+                    onChange= {e => filterHandler(e.target.value)} 
+                    className="p-2 bd-highlight" />                
+            </div>
             <table className="table">
                 <thead>
                     <tr>
@@ -102,7 +126,7 @@ const HomePage = (props) => {
                 activeClassName={'active'}
                 containerClassName={'list-group list-group-horizontal'}
 
-                initialPage={props.currentPage}
+                initialPage={props.currentPage -1}
                 pageCount={props.pageCount}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
@@ -116,8 +140,10 @@ const HomePage = (props) => {
 // anything we return from it (object), will be passed to the component as a prop
 HomePage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
-        const page = context.query.page;
-        const customers = await client.get(`/api/customers?page=${page}`);
+        //console.log(context.query);
+        const { page = 1, search = '' } = context.query;        
+        const customers = await client.get(`/api/customers?page=${page}&search=${search}`);
+        
         return {
             totalCount: customers.data.meta.totalCount,
             pageCount: customers.data.meta.pageCount,

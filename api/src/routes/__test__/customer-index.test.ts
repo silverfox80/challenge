@@ -22,10 +22,10 @@ it('can fetch a list of customers', async () => {
   };
 
   const response = await request(app)
-                          .get('/api/customers')
+                          .get('/api/customers/')
                           .set('Cookie', cookie)
                           .send()
                           .expect(200);
-
-  expect(response.body.length).toEqual(3);
+  
+  expect(response.body.result.length).toEqual(3);
 });

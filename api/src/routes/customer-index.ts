@@ -7,17 +7,21 @@ const router = express.Router();
 
 router.get('/api/customers/', currentUser, requireAuth, async (req: Request, res: Response) => {
   
-  let pageNumber:number = parseInt ( req.query.page as string );
-  let searchString:string = req.query.search as string;
-  
+  let pageNumber:number = req.query.page ? parseInt ( req.query.page as string ) : 1;
+  let searchString:string = req.query.search ? req.query.search as string : '';
+  let sort: number = req.query.sort ? parseInt ( req.query.sort as string ) : 1;
+
   const PER_PAGE = 10;
   const filters = {
     active:true,
-    lastname:{'$regex' : searchString, '$options' : 'i'}
+    $or: 
+        [  { lastname:{'$regex' : searchString, '$options' : 'i'} }, 
+           { city:{'$regex' : searchString, '$options' : 'i'} }
+        ]
   };
 
   const customers = await Customer.find(filters)
-                                  .sort( { "lastname": -1 } )
+                                  .sort( { "lastname": sort } )
                                   .skip( pageNumber > 1 ? ( ( pageNumber - 1 ) * PER_PAGE ) : 0 )
                                   .limit(PER_PAGE);  
     

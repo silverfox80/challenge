@@ -19,7 +19,7 @@ export const currentUser = (
     res: Response,
     next: NextFunction
 ) => {
-    if (!req.session || !req.session.jwt) {
+    if (!req.session?.jwt) {  //eq. to (!req.session || !req.session.jwt)
         return next(); //if does not exists go to the next middleware
     }
 

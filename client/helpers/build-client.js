@@ -6,6 +6,7 @@ import axios from 'axios';
 const buildClient = ({ req }) => {
   if (typeof window === 'undefined') {  //window only exists into the browser env and not in nodeJs
     // We are on the server
+    
     return axios.create({
       baseURL:
         //http://SERVICENAME.NAMESPACE.svc.cluster.local/api/users/currentuser

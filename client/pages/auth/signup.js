@@ -21,18 +21,18 @@ export default () => {
     };
 
     return (
-        <div className="container">
+        <div className="row container">
             <form onSubmit={onSubmit}>
-                <h1>Register User</h1>
-                <div className="form-group">
-                    <label>Email</label>
+                <h2>Register User</h2>
+                <div className="form-group col-3">
+                    <label className="form-label">Email</label>
                     <input
                     value={email}
                     onChange= {e => setEmail(e.target.value)} 
                     className="form-control" />
                 </div>
-                <div className="form-group">
-                    <label>Password</label>
+                <div className="form-group col-2">
+                    <label className="form-label">Password</label>
                     <input 
                     value={password}
                     onChange= {e => setPassword(e.target.value)} 

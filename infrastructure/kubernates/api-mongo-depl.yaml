@@ -1,9 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: api-mongo-depl
+  labels:
+    app: api-mongo
 spec:
   replicas: 1
+  serviceName: 'api-mongo'
   selector:
     matchLabels:
       app: api-mongo
@@ -12,9 +15,16 @@ spec:
       labels:
         app: api-mongo
     spec:
+      volumes:
+        - name: task-pv-storage
+          persistentVolumeClaim:
+            claimName: task-pv-claim
       containers:
         - name: api-mongo
           image: mongo
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: task-pv-storage
 ---
 apiVersion: v1
 kind: Service

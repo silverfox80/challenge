@@ -21,17 +21,17 @@ export default () => {
     };
 
     return (
-        <div className="container">
+        <div className="container row">
             <form onSubmit={onSubmit}>
-                <h1>Sign-In User</h1>
-                <div className="form-group">
+                <h2>Sign-In User</h2>
+                <div className="form-group col-3">
                     <label>Email</label>
                     <input
                     value={email}
                     onChange= {e => setEmail(e.target.value)} 
                     className="form-control" />
                 </div>
-                <div className="form-group">
+                <div className="form-group col-2">
                     <label>Password</label>
                     <input 
                     value={password}

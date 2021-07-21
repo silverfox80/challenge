@@ -68,6 +68,15 @@ minikube addons enable ingress
 ### Set a secret on kubernates to store the jwt key
 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=****
 
+### Create a persistent volume
+kubectl apply -f project-dir/pv-volume.yaml 
+#### - check with "kubectl get pv task-pv-volume"
+
+### Create a peristent volume claim
+kubectl apply -f project-dir/pv-claim.yaml
+#### - check again with "kubectl get pv task-pv-volume" that the status is "bound"
+#### - "kubectl get pvc task-pv-claim" will show the claim bounded to the volume
+
 ### Launch Skaffold 
 skaffold dev
 

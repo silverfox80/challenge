@@ -2,7 +2,7 @@ import { useEffect } from 'react';  //this is a Hook that tell React that your c
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
-export default () => {
+const SignOut = () => {
   const { doRequest } = useRequest({
     url: '/api/users/signout',
     method: 'delete',
@@ -16,3 +16,5 @@ export default () => {
 
   return <div>Signing you out...</div>;
 };
+
+export default SignOut;

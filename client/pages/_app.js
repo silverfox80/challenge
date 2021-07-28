@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 //to include a global css into the project, it needs to be loaded into the _app.js that is the only file is loaded for each page
 //from next.js/errors/css-global.md
-import buildClient from '../helpers/build-client'
-import Header from '../components/header'
+import buildClient from '../helpers/build-client';
+import Header from '../components/header';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
     return (

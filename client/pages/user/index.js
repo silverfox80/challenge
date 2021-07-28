@@ -1,11 +1,10 @@
-import CustomerMenu from '../components/customer-menu';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useRouter } from 'next/router';
 
 
-const HomePage = (props) => {
+const UserPage = (props) => {
     
     if (!props.currentUser) {
         return (<h2><span className="m-2">Please Register or Log-in</span></h2>);
@@ -43,37 +42,20 @@ const HomePage = (props) => {
     };
 
     //Conditional rendering of the posts list or loading indicator
-    const customerList = props.customers.map((customer) => {
+    const userList = props.users.map((user) => {
         return (
-            <tr key={customer.id}>
-                <td>{customer.firstname}</td>
-                <td>{customer.lastname}</td>
-                <td>{customer.phoneNumber}</td>
-                <td>{customer.email}</td>
-                <td>{customer.street}</td>
-                <td>{customer.city}</td>
-                <td>{customer.postcode}</td>
-                <td>{customer.country}</td>
-                <td>
-                    <Link href="/customer/[customerId]" as={`/customer/${customer.id}`}>
-                        <button className="btn btn-primary btn-sm mx-1">View</button>
-                    </Link>                                                      
-                </td>                
+            <tr key={user.id}>
+                <td>{user.email}</td>             
             </tr>
         );
     });
-
-    const links = [
-        { label: 'Add a new client', href: '/customer/create', icon:'person-plus' },
-        { label: 'List of Users', href: '/user/', icon:'person-square' }
-    ];
 
     let content = null;
     if (isLoading)
         content = <tr><td>Loading...</td></tr>;
     else {
-        //Generating customers list
-        content = customerList;
+        //Generating user list
+        content = userList;
     }
 
     //Search handler
@@ -108,8 +90,7 @@ const HomePage = (props) => {
     //
     return (
         <div>        
-            <h1>Client List</h1>
-            <CustomerMenu items={links}/>
+            <h1>User List</h1>
             <div className="d-flex flex-row-reverse bd-highlight">
                 <input
                     value={querySearch}
@@ -120,19 +101,7 @@ const HomePage = (props) => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name 
-                            <button value={querySort} className="btn btn-sm btn-outline-secondary ms-5" onClick={e => sortHandler(e.target)}>
-                                <i className={"bi bi-sort-"+(querySort==1?"down":"up")}></i>
-                            </button>
-                        </th>
-                        <th>Telephone Number</th>
                         <th>E-Mail</th>
-                        <th>Street</th>
-                        <th>City</th>
-                        <th>Postcode</th>
-                        <th>Country</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>{content}</tbody>
@@ -161,20 +130,20 @@ const HomePage = (props) => {
 }
 // getInitialProps is specific from nextjs, it will call this function while is attempting to render the page
 // anything we return from it (object), will be passed to the component as a prop
-HomePage.getInitialProps = async (context, client, currentUser) => {
+UserPage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
         //console.log(context.query);
         const { page = 1, search = '' , sort = 1} = context.query;        
-        const customers = await client.get(`/api/customers?page=${page}&search=${search}&sort=${sort}`);
+        const users = await client.get(`/api/users?page=${page}&search=${search}&sort=${sort}`);
         
         return {
-            totalCount: customers.data.meta.totalCount,
-            pageCount: customers.data.meta.pageCount,
-            currentPage: customers.data.meta.currentPage,
-            perPage: customers.data.meta.perPage,
-            customers: customers.data.result,
+            totalCount: users.data.meta.totalCount,
+            pageCount: users.data.meta.pageCount,
+            currentPage: users.data.meta.currentPage,
+            perPage: users.data.meta.perPage,
+            users: users.data.result,
         };
     }
     return {};
 }
-export default HomePage; 
+export default UserPage; 

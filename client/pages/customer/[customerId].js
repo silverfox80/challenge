@@ -1,8 +1,15 @@
+import CustomerMenu from '../../components/customer-menu';
 import useRequest from '../../hooks/use-request';
 import Router from 'next/router';
 import { useState } from 'react';
 
 const CustomerShow = ({ customer }) => {
+    
+    const links = [
+        { label: 'Home Page', href: '/', icon:'house' },
+        { label: 'Customers', href: '/customer/', icon:'file-person-fill' }
+    ];
+    
     const [active, setActive] = useState(customer.active);
     const [firstname, setFirstname] = useState(customer.firstname);
     const [lastname, setLastname] = useState(customer.lastname);
@@ -55,6 +62,7 @@ const CustomerShow = ({ customer }) => {
         <div className="d-flex mx-5">
             <form onSubmit={onSubmit}>
                 <h1>Client Details</h1>
+                <CustomerMenu items={links}/>
                 <div className="form-group">
                     <label>First Name (*)</label>
                     <input

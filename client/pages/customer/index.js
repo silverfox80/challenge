@@ -1,17 +1,19 @@
 import CustomerMenu from '../../components/customer-menu';
-import DeleteUserButton from '../../components/delete-user-button';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useRouter } from 'next/router';
 
-const UserPage = (props) => {
+
+const CustomerPage = (props) => {
     
     if (!props.currentUser) {
         return (<h2><span className="m-2">Please Register or Log-in</span></h2>);
     }
-
+    
     const links = [
-        { label: 'Home Page', href: '/', icon:'house' }
+        { label: 'Home Page', href: '/', icon:'house' },
+        { label: 'Add a new customer', href: '/customer/create', icon:'person-plus' },
     ];
 
     const [isLoading, setLoading] = useState(false); //State for the loading indicator
@@ -45,20 +47,23 @@ const UserPage = (props) => {
         });
     };
 
-    //Conditional rendering of the user list or loading indicator
-    const userList = props.users.map((user) => {
-        let btn_delete = <i className="bi bi-person-circle"> logged user</i>;
-        if (user.id !== props.currentUser.id) {
-            btn_delete = <DeleteUserButton uid={user.id} />;
-        }
+    //Conditional rendering of the posts list or loading indicator
+    const customerList = props.customers.map((customer) => {
         return (
-            <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.surname}</td>
-                <td>{user.email}</td>  
-                <td>                   
-                    {btn_delete}                                                     
-                </td>           
+            <tr key={customer.id}>
+                <td>{customer.firstname}</td>
+                <td>{customer.lastname}</td>
+                <td>{customer.phoneNumber}</td>
+                <td>{customer.email}</td>
+                <td>{customer.street}</td>
+                <td>{customer.city}</td>
+                <td>{customer.postcode}</td>
+                <td>{customer.country}</td>
+                <td>
+                    <Link href="/customer/[customerId]" as={`/customer/${customer.id}`}>
+                        <button className="btn btn-primary btn-sm mx-1">View</button>
+                    </Link>                                                      
+                </td>                
             </tr>
         );
     });
@@ -67,8 +72,8 @@ const UserPage = (props) => {
     if (isLoading)
         content = <tr><td>Loading...</td></tr>;
     else {
-        //Generating user list
-        content = userList;
+        //Generating customers list
+        content = customerList;
     }
 
     //Search handler
@@ -103,12 +108,12 @@ const UserPage = (props) => {
     //
     return (
         <div>        
-            <h1>User List</h1>
+            <h1>Customer List</h1>
             <CustomerMenu items={links}/>
             <div className="d-flex flex-row-reverse bd-highlight">
                 <input
                     value={querySearch}
-                    placeholder="filter here"
+                    placeholder="filter lastname or city here"
                     onChange= {e => filterHandler(e.target.value)} 
                     className="p-2 bd-highlight" />                
             </div>
@@ -116,8 +121,17 @@ const UserPage = (props) => {
                 <thead>
                     <tr>
                         <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Last Name 
+                            <button value={querySort} className="btn btn-sm btn-outline-secondary ms-5" onClick={e => sortHandler(e.target)}>
+                                <i className={"bi bi-sort-"+(querySort==1?"down":"up")}></i>
+                            </button>
+                        </th>
+                        <th>Telephone Number</th>
                         <th>E-Mail</th>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>Postcode</th>
+                        <th>Country</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -147,20 +161,20 @@ const UserPage = (props) => {
 }
 // getInitialProps is specific from nextjs, it will call this function while is attempting to render the page
 // anything we return from it (object), will be passed to the component as a prop
-UserPage.getInitialProps = async (context, client, currentUser) => {
+CustomerPage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
         //console.log(context.query);
         const { page = 1, search = '' , sort = 1} = context.query;        
-        const users = await client.get(`/api/users?page=${page}&search=${search}&sort=${sort}`);
+        const customers = await client.get(`/api/customers?page=${page}&search=${search}&sort=${sort}`);
         
         return {
-            totalCount: users.data.meta.totalCount,
-            pageCount: users.data.meta.pageCount,
-            currentPage: users.data.meta.currentPage,
-            perPage: users.data.meta.perPage,
-            users: users.data.result,
+            totalCount: customers.data.meta.totalCount,
+            pageCount: customers.data.meta.pageCount,
+            currentPage: customers.data.meta.currentPage,
+            perPage: customers.data.meta.perPage,
+            customers: customers.data.result,
         };
     }
     return {};
 }
-export default UserPage; 
+export default CustomerPage; 

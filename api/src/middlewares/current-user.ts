@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 interface UserPayload {
     id: string,
+    name: string,
     email: string
 }
 //define a new property (optional) for Request 

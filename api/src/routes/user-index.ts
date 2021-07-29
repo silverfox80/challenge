@@ -13,7 +13,11 @@ router.get('/api/users/', currentUser, requireAuth, async (req: Request, res: Re
 
   const PER_PAGE = 10;
   const filters = {
-    email:{'$regex' : searchString, '$options' : 'i'} 
+    $or: 
+        [ { email:{'$regex' : searchString, '$options' : 'i'} },
+          { name:{'$regex' : searchString, '$options' : 'i'} }, 
+          { surname:{'$regex' : searchString, '$options' : 'i'} }
+        ]
   };
 
   const users = await User.find(filters)

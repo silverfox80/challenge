@@ -3,12 +3,16 @@ import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
 const SignUp = () => {
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { doRequest, errors } = useRequest({
         url: '/api/users/signup',
         method: 'post',
         body: {
+            name,
+            surname,
             email,
             password
         },
@@ -24,6 +28,20 @@ const SignUp = () => {
         <div className="row container">
             <form onSubmit={onSubmit}>
                 <h2>Register User</h2>
+                <div className="form-group col-3">
+                    <label className="form-label">First Name</label>
+                    <input
+                    value={name}
+                    onChange= {e => setName(e.target.value)} 
+                    className="form-control" />
+                </div>
+                <div className="form-group col-3">
+                    <label className="form-label">Last Name</label>
+                    <input
+                    value={surname}
+                    onChange= {e => setSurname(e.target.value)} 
+                    className="form-control" />
+                </div>
                 <div className="form-group col-3">
                     <label className="form-label">Email</label>
                     <input

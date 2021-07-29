@@ -13,6 +13,7 @@ import { customerIndexRouter } from './routes/customer-index';
 import { customerUpdateRouter } from './routes/customer-update';
 import { customerDeleteRouter } from './routes/customer-delete';
 import { userIndexRouter } from './routes/user-index';
+import { userDeleteRouter } from './routes/user-delete';
 
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-err';
@@ -39,6 +40,7 @@ app.use(customerIndexRouter);
 app.use(customerUpdateRouter);
 app.use(customerDeleteRouter);
 app.use(userIndexRouter);
+app.use(userDeleteRouter);
 
 app.all('*', async (req,res) => {
     throw new NotFoundError();

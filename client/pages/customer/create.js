@@ -1,8 +1,15 @@
+import CustomerMenu from '../../components/customer-menu';
 import { useState } from 'react';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
 const NewCustomer = () => {
+        
+    const links = [
+        { label: 'Home Page', href: '/', icon:'house' },
+        { label: 'Customers', href: '/customer/', icon:'file-person-fill' }
+    ];
+    
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -35,7 +42,8 @@ const NewCustomer = () => {
     return (
         <div className="container">
             <form onSubmit={onSubmit}>
-                <h1>New Client</h1>
+                <h1>New Customer</h1>
+                <CustomerMenu items={links}/>
                 <div className="form-group">
                     <label>First Name (*)</label>
                     <input

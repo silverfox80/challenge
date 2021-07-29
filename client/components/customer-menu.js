@@ -12,8 +12,8 @@ const CustomerMenu = ({ items }) => {
     });
     
     return (
-        <div className="d-flex">
-            <ul className="nav d-flex align-items-center">{menuItems}</ul>
+        <div className="d-flex border-bottom border-primary border-2 mb-2">
+            <ul className="nav d-flex align-items-center">{menuItems}</ul>            
         </div>         
     );
 };

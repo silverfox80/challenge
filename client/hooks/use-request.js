@@ -6,16 +6,23 @@ const useRequest = ({ url, method, body, onSuccess }) => {
   
   const doRequest = async () => {
     try {
+
       setErrors(null);
       const response = await axios[method](url, body);   //lookup where method === 'post', 'get', 'patch
+      
+      if(method==="delete" && onSuccess) {        
+        onSuccess(null);
+        return null;
+      }
 
       if (onSuccess) {
         onSuccess(response.data);
       }
 
       return response.data;
+
     } catch (err) {
-        //console.log(err);
+        console.log(err);
         setErrors(
           <div className="alert alert-danger">
             <h4>Something went wrong</h4>

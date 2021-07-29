@@ -82,3 +82,9 @@ skaffold dev
 
 #### - check with "kubectl get ing" and "kubectl get pods -n kube-system | grep nginx-ingress-controller"
 #### - the host later created emmachallenge.dev in /etc/hosts must point to the load balancer IP received from kubectl command
+#### - Some useful commands -
+####
+####   minikube addons list
+####   minikube config view
+####   kubectl get pv,pvc
+####   kubectl describe pv,pvc

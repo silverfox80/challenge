@@ -44,6 +44,7 @@ router.post(
         // Generate a JWT ...        
         const userJwt = jwt.sign({
             id: existingUser.id,
+            name: `${existingUser.name} ${existingUser.surname}`, 
             email: existingUser.email
         }, process.env.JWT_KEY!);  //this key needs to be shared through all the services, to do so, we can use kubernates secrets
         

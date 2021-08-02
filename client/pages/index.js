@@ -1,11 +1,11 @@
-import CustomerMenu from '../components/customer-menu';
+import MenuBar from '../components/menu-bar';
 import React from 'react';
 
 
 const HomePage = (props) => {
     //console.log(props.currentUser);
     if (!props.currentUser) {
-        return (<h2><span className="m-2">Please Register or Log-in</span></h2>);
+        return (<h2><span className="m-2">Please <a href="/auth/signup">Register</a> or <a href="/auth/signin">Log-in</a> to access the portal.</span></h2>);
     }
     
     const links = [
@@ -15,7 +15,7 @@ const HomePage = (props) => {
 
     return (
         <div>
-            <CustomerMenu items={links}/>
+            <MenuBar items={links}/>
         </div>
     );
 

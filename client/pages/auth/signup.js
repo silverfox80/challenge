@@ -4,7 +4,7 @@ import useRequest from '../../hooks/use-request';
 
 const SignUp = () => {
     const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { doRequest, errors } = useRequest({
@@ -12,7 +12,7 @@ const SignUp = () => {
         method: 'post',
         body: {
             name,
-            surname,
+            lastname,
             email,
             password
         },
@@ -38,8 +38,8 @@ const SignUp = () => {
                 <div className="form-group col-3">
                     <label className="form-label">Last Name</label>
                     <input
-                    value={surname}
-                    onChange= {e => setSurname(e.target.value)} 
+                    value={lastname}
+                    onChange= {e => setLastName(e.target.value)} 
                     className="form-control" />
                 </div>
                 <div className="form-group col-3">

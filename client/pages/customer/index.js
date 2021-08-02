@@ -1,21 +1,21 @@
-import CustomerMenu from '../../components/customer-menu';
+import MenuBar from '../../components/menu-bar';
+import OrderColumn from '../../components/order-column';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useRouter } from 'next/router';
-
 
 const CustomerPage = (props) => {
     
     if (!props.currentUser) {
         return (<h2><span className="m-2">Please Register or Log-in</span></h2>);
     }
-    
+    //Menu bar component customization
     const links = [
         { label: 'Home Page', href: '/', icon:'house' },
         { label: 'Add a new customer', href: '/customer/create', icon:'person-plus' },
     ];
-
+    //
     const [isLoading, setLoading] = useState(false); //State for the loading indicator
     const startLoading = () => setLoading(true);
     const stopLoading = () => setLoading(false);
@@ -29,25 +29,13 @@ const CustomerPage = (props) => {
         //UseEffect (that belongs to the Hooks system) allows to use lifecycle methods in a functional component
         router.events.on('routeChangeStart', startLoading); 
         router.events.on('routeChangeComplete', stopLoading);
-
+        
         return () => {
             router.events.off('routeChangeStart', startLoading);
             router.events.off('routeChangeComplete', stopLoading);
         }
-    }, [])
-
-    const paginationHandler = (page) => {
-        const currentPath = router.pathname;
-        let currentQuery = router.query;
-        currentQuery.page = !currentQuery.page ? 1 : page.selected + 1;
-        
-        router.push({
-            pathname: currentPath,
-            query: currentQuery,
-        });
-    };
-
-    //Conditional rendering of the posts list or loading indicator
+    }, []);
+    //Conditional rendering of the customers list or loading indicator
     const customerList = props.customers.map((customer) => {
         return (
             <tr key={customer.id}>
@@ -67,7 +55,7 @@ const CustomerPage = (props) => {
             </tr>
         );
     });
-
+    //Loading indicator
     let content = null;
     if (isLoading)
         content = <tr><td>Loading...</td></tr>;
@@ -75,41 +63,47 @@ const CustomerPage = (props) => {
         //Generating customers list
         content = customerList;
     }
-
-    //Search handler
-    const [querySearch, setQuerySearch] = useState('');    
-    const filterHandler = async (value) => {  
-        setQuerySearch(value);      
-        
+    //Pagination handler
+    const paginationHandler = (page) => {
         const currentPath = router.pathname;
-        const currentQuery = { page: 1, search: value, sort: querySort };
+        let currentQuery = router.query;
+        currentQuery.page = !currentQuery.page ? 1 : page.selected + 1;
         
         router.push({
             pathname: currentPath,
             query: currentQuery,
-        }); 
+        });
+    };
+    //Search handler
+    const [querySearch, setQuerySearch] = useState('');   
+    const filterHandler = async (value) => {  
+        setQuerySearch(value);
     }
     //Sort handler
-    const [querySort, setQuerySort] = useState(1);
-    const sortHandler = async (ev_t) => {  
-        ev_t = ev_t.closest('button'); //when clicking on the icon
-        
-        const val = ev_t.value == 1? -1 : 1; //toggle the order
-        setQuerySort(val);      
-        
+    const [querySortOrder, setQuerySortOrder] = useState(['lastname',1]);
+    const sortHandler = async (colname) => {  
+                
+        let val = 1;
+        if (colname==querySortOrder[0]) {
+            val = querySortOrder[1] == 1? -1 : 1; //toggle the order
+        }
+        setQuerySortOrder([colname,val]);        
+    }
+    //
+    useEffect(() => {
         const currentPath = router.pathname;
-        const currentQuery = { page: 1, search: querySearch, sort: val };
+        const currentQuery = { page: 1, search: querySearch, sortcol:querySortOrder[0] ,sort: querySortOrder[1] };
         
         router.push({
             pathname: currentPath,
             query: currentQuery,
         }); 
-    }
+    }, [querySortOrder,querySearch]);  //Apply the new query string when the state is updated
     //
     return (
         <div>        
+            <MenuBar items={links}/>
             <h1>Customer List</h1>
-            <CustomerMenu items={links}/>
             <div className="d-flex flex-row-reverse bd-highlight">
                 <input
                     value={querySearch}
@@ -120,14 +114,16 @@ const CustomerPage = (props) => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
+                        <th>First Name
+                            <OrderColumn colname="firstname" handler={sortHandler} stateVar={querySortOrder} />
+                        </th>
                         <th>Last Name 
-                            <button value={querySort} className="btn btn-sm btn-outline-secondary ms-5" onClick={e => sortHandler(e.target)}>
-                                <i className={"bi bi-sort-"+(querySort==1?"down":"up")}></i>
-                            </button>
+                            <OrderColumn colname="lastname" handler={sortHandler} stateVar={querySortOrder} />
                         </th>
                         <th>Telephone Number</th>
-                        <th>E-Mail</th>
+                        <th>E-Mail
+                            <OrderColumn colname="email" handler={sortHandler} stateVar={querySortOrder} />
+                        </th>
                         <th>Street</th>
                         <th>City</th>
                         <th>Postcode</th>
@@ -164,8 +160,8 @@ const CustomerPage = (props) => {
 CustomerPage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
         //console.log(context.query);
-        const { page = 1, search = '' , sort = 1} = context.query;        
-        const customers = await client.get(`/api/customers?page=${page}&search=${search}&sort=${sort}`);
+        const { page = 1, search = '',sortcol = 'lastname', sort = 1} = context.query;        
+        const customers = await client.get(`/api/customers?page=${page}&search=${search}&sortcol=${sortcol}&sort=${sort}`);
         
         return {
             totalCount: customers.data.meta.totalCount,

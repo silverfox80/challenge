@@ -1,4 +1,4 @@
-import CustomerMenu from '../../components/customer-menu';
+import MenuBar from '../../components/menu-bar';
 import useRequest from '../../hooks/use-request';
 import Router from 'next/router';
 import { useState } from 'react';
@@ -61,8 +61,8 @@ const CustomerShow = ({ customer }) => {
     return (
         <div className="d-flex mx-5">
             <form onSubmit={onSubmit}>
+                <MenuBar items={links}/>
                 <h1>Client Details</h1>
-                <CustomerMenu items={links}/>
                 <div className="form-group">
                     <label>First Name (*)</label>
                     <input

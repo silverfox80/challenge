@@ -88,3 +88,5 @@ skaffold dev
 ####   minikube config view
 ####   kubectl get pv,pvc
 ####   kubectl describe pv,pvc
+####   kubectl delete pvc --all 
+####   kubectl port-forward api-mongo-depl-0 27017:27017

@@ -1,4 +1,5 @@
-import CustomerMenu from '../../components/customer-menu';
+import MenuBar from '../../components/menu-bar';
+import OrderColumn from '../../components/order-column';
 import DeleteUserButton from '../../components/delete-user-button';
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
@@ -9,11 +10,11 @@ const UserPage = (props) => {
     if (!props.currentUser) {
         return (<h2><span className="m-2">Please Register or Log-in</span></h2>);
     }
-
+    //Menu bar component customization
     const links = [
         { label: 'Home Page', href: '/', icon:'house' }
     ];
-
+    //
     const [isLoading, setLoading] = useState(false); //State for the loading indicator
     const startLoading = () => setLoading(true);
     const stopLoading = () => setLoading(false);
@@ -32,8 +33,33 @@ const UserPage = (props) => {
             router.events.off('routeChangeStart', startLoading);
             router.events.off('routeChangeComplete', stopLoading);
         }
-    }, [])
-
+    }, []);
+    //Conditional rendering of the user list or loading indicator
+    const userList = props.users.map((user) => {
+        let btn_delete = <i className="bi bi-person-circle"> logged user</i>;
+        if (user.id !== props.currentUser.id) {
+            btn_delete = <DeleteUserButton uid={user.id} />;
+        }
+        return (
+            <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.lastname}</td>
+                <td>{user.email}</td>  
+                <td>                   
+                    {btn_delete}                                                     
+                </td>           
+            </tr>
+        );
+    });
+    //Loading indicator
+    let content = null;
+    if (isLoading)
+        content = <tr><td>Loading...</td></tr>;
+    else {
+        //Generating user list
+        content = userList;
+    }
+    //Pagination handler
     const paginationHandler = (page) => {
         const currentPath = router.pathname;
         let currentQuery = router.query;
@@ -44,67 +70,36 @@ const UserPage = (props) => {
             query: currentQuery,
         });
     };
-
-    //Conditional rendering of the user list or loading indicator
-    const userList = props.users.map((user) => {
-        let btn_delete = <i className="bi bi-person-circle"> logged user</i>;
-        if (user.id !== props.currentUser.id) {
-            btn_delete = <DeleteUserButton uid={user.id} />;
-        }
-        return (
-            <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.surname}</td>
-                <td>{user.email}</td>  
-                <td>                   
-                    {btn_delete}                                                     
-                </td>           
-            </tr>
-        );
-    });
-
-    let content = null;
-    if (isLoading)
-        content = <tr><td>Loading...</td></tr>;
-    else {
-        //Generating user list
-        content = userList;
-    }
-
     //Search handler
-    const [querySearch, setQuerySearch] = useState('');    
+    const [querySearch, setQuerySearch] = useState('');   
     const filterHandler = async (value) => {  
-        setQuerySearch(value);      
-        
-        const currentPath = router.pathname;
-        const currentQuery = { page: 1, search: value, sort: querySort };
-        
-        router.push({
-            pathname: currentPath,
-            query: currentQuery,
-        }); 
+        setQuerySearch(value);
     }
     //Sort handler
-    const [querySort, setQuerySort] = useState(1);
-    const sortHandler = async (ev_t) => {  
-        ev_t = ev_t.closest('button'); //when clicking on the icon
-        
-        const val = ev_t.value == 1? -1 : 1; //toggle the order
-        setQuerySort(val);      
-        
+    const [querySortOrder, setQuerySortOrder] = useState(['lastname',1]);
+    const sortHandler = async (colname) => {  
+                
+        let val = 1;
+        if (colname==querySortOrder[0]) {
+            val = querySortOrder[1] == 1? -1 : 1; //toggle the order
+        }
+        setQuerySortOrder([colname,val]);        
+    }
+    //
+    useEffect(() => {
         const currentPath = router.pathname;
-        const currentQuery = { page: 1, search: querySearch, sort: val };
+        const currentQuery = { page: 1, search: querySearch, sortcol:querySortOrder[0] ,sort: querySortOrder[1] };
         
         router.push({
             pathname: currentPath,
             query: currentQuery,
         }); 
-    }
+    }, [querySortOrder,querySearch]);  //Apply the new query string when the state is updated
     //
     return (
-        <div>        
+        <div>
+            <MenuBar items={links}/>
             <h1>User List</h1>
-            <CustomerMenu items={links}/>
             <div className="d-flex flex-row-reverse bd-highlight">
                 <input
                     value={querySearch}
@@ -115,9 +110,15 @@ const UserPage = (props) => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>E-Mail</th>
+                        <th>First Name
+                            <OrderColumn colname="firstname" handler={sortHandler} stateVar={querySortOrder} />
+                        </th>
+                        <th>Last Name
+                            <OrderColumn colname="lastname" handler={sortHandler} stateVar={querySortOrder} />
+                        </th>
+                        <th>E-Mail
+                            <OrderColumn colname="email" handler={sortHandler} stateVar={querySortOrder} />
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -150,7 +151,7 @@ const UserPage = (props) => {
 UserPage.getInitialProps = async (context, client, currentUser) => {
     if (currentUser){
         //console.log(context.query);
-        const { page = 1, search = '' , sort = 1} = context.query;        
+        const { page = 1, search = '',sortcol = 'lastname', sort = 1} = context.query;        
         const users = await client.get(`/api/users?page=${page}&search=${search}&sort=${sort}`);
         
         return {

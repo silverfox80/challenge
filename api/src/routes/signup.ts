@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/api/users/signup", [
         body("name"),
-        body("surname"),
+        body("lastname"),
         body("email")
             .isEmail()
             .withMessage('Email must be valid'),
@@ -27,14 +27,14 @@ router.post("/api/users/signup", [
             //return res.status(400).send(errors.array());
         }
         //        
-        const { name,surname,email,password } = req.body;
+        const { name,lastname,email,password } = req.body;
         //First check if the email is already in use
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             throw new BadRequestError('User already exists'); 
         }
 
-        const user = User.build({name,surname,email,password});
+        const user = User.build({name,lastname,email,password});
         await user.save(); //this is needed to persistently save on db
 
         // Generate a JWT ...        

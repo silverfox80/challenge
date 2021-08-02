@@ -5,7 +5,7 @@ import { Password } from '../helpers/password';
 // An interface that describe the properties required to create a new User
 interface UserAttrs {
     name: string;
-    surname: string;
+    lastname: string;
     email: string;
     password: string;
 }
@@ -16,7 +16,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // An interface that describe the properties that a User Document has
 interface UserDoc extends mongoose.Document {
     name: string;
-    surname: string;
+    lastname: string;
     email: string;
     password: string;
     /* here we can extra properties that maybe Mongo can automatically add on like (created_at, updated_at, etc)*/
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String
     },
-    surname: {
+    lastname: {
         type: String
     },
     email: {

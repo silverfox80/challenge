@@ -14,9 +14,10 @@ router.get('/api/users/', currentUser, requireAuth, async (req: Request, res: Re
   const PER_PAGE = 10;
   const filters = {
     $or: 
-        [ { email:{'$regex' : searchString, '$options' : 'i'} },
+        [
           { name:{'$regex' : searchString, '$options' : 'i'} }, 
-          { surname:{'$regex' : searchString, '$options' : 'i'} }
+          { lastname:{'$regex' : searchString, '$options' : 'i'} },
+          { email:{'$regex' : searchString, '$options' : 'i'} }
         ]
   };
 

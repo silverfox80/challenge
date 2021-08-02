@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import faker from 'faker';
 
 const Header = ({ currentUser }) => {
     const links = [

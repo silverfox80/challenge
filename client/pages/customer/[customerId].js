@@ -33,7 +33,7 @@ const CustomerShow = ({ customer }) => {
     const deleteHandler = useRequest({
         url: `/api/customers/${customer.id}`,
         method: 'delete',
-        onSuccess: () => Router.push('/')
+        onSuccess: () => Router.push('/customer/')
     });
 
     const {doRequest,errors} = useRequest({
@@ -50,7 +50,7 @@ const CustomerShow = ({ customer }) => {
             country,
             active
         },
-        onSuccess: () => Router.push('/')
+        onSuccess: () => Router.push('/customer/')
     });
 
     const onSubmit = async event => {

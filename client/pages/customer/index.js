@@ -49,7 +49,7 @@ const CustomerPage = (props) => {
                 <td>{customer.country}</td>
                 <td>
                     <Link href="/customer/[customerId]" as={`/customer/${customer.id}`}>
-                        <button className="btn btn-primary btn-sm mx-1">View</button>
+                        <button className="btn btn-primary btn-sm mx-1">Edit</button>
                     </Link>                                                      
                 </td>                
             </tr>

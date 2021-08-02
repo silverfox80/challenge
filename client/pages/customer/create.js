@@ -2,6 +2,7 @@ import MenuBar from '../../components/menu-bar';
 import { useState } from 'react';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
+import faker from 'faker';
 
 const NewCustomer = () => {
         
@@ -31,12 +32,24 @@ const NewCustomer = () => {
             city, 
             country
         },
-        onSuccess: () => Router.push('/')
+        onSuccess: () => Router.push('/customer/')
     });
 
     const onSubmit = async event => {
         event.preventDefault();
         await doRequest();
+    };
+
+    const createFake = (e) => {
+        e.preventDefault();
+        setFirstname ( faker.name.firstName );
+        setLastname( faker.name.lastName );
+        setPhoneNumber( faker.phone.phoneNumber().slice(0,15) );
+        setEmail( faker.internet.email() );
+        setStreet( faker.address.streetAddress() );
+        setPostcode( faker.address.zipCode().slice(0,5) );
+        setCity( faker.address.city );
+        setCountry( faker.address.country );
     };
 
     return (
@@ -101,8 +114,9 @@ const NewCustomer = () => {
                     className="form-control" />
                 </div>
                 { errors }      
-                <button className="btn btn-primary mt-2">Submit Customer</button>
-            </form>
+                <button className="btn btn-primary m-2">Submit Customer</button> 
+                <button onClick={e => createFake(e)} className="btn btn-info m-2">Create a FAKE</button>               
+            </form>            
       </div>
     );
 };

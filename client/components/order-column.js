@@ -1,10 +1,18 @@
 /** Columns ordering component */
 
-const OrderColumn = ({ colname, handler, stateVar }) => {
-    const isActive =  stateVar[0]===colname ? 'btn-info' : '';
+const OrderColumn = ({ colname, handler, currentValue }) => {
+    
+    let isActiveClass = '';
+    let orderObj = ['lastname',1];
+    
+    if (currentValue){
+        orderObj = currentValue;
+        isActiveClass = currentValue[0]===colname?'btn-info':'';
+    }
+    
     return (
-        <button className={"btn btn-sm btn-outline-secondary ms-5 "+isActive} onClick={e => handler(colname)}>
-            <i className={"bi bi-sort-"+((stateVar[0]==colname && stateVar[1]==1)?"down":"up")}></i>
+        <button className={`btn btn-sm btn-outline-secondary ms-5 ${isActiveClass}`} onClick={e => handler(colname)}>
+            <i className={`bi bi-sort-${((orderObj[0]==colname && orderObj[1]==1)?'down':'up')}`}></i>
         </button>         
     );
 };

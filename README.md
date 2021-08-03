@@ -90,3 +90,8 @@ skaffold dev
 ####   kubectl describe pv,pvc
 ####   kubectl delete pvc --all 
 ####   kubectl port-forward api-mongo-depl-0 27017:27017
+
+### Install metrics-server
+### wget https://raw.githubusercontent.com/pythianarora/total-practice/master/sample-kubernetes-code/metrics-server.yaml
+### kubectl create -f metrics-server.yaml
+### kubectl top pods --use-protocol-buffers     (to show metrics of all pods at same time)

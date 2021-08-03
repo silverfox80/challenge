@@ -115,14 +115,14 @@ const CustomerPage = (props) => {
                 <thead>
                     <tr>
                         <th>First Name
-                            <OrderColumn colname="firstname" handler={sortHandler} stateVar={querySortOrder} />
+                            <OrderColumn colname="firstname" handler={sortHandler} currentValue={querySortOrder} />
                         </th>
                         <th>Last Name 
-                            <OrderColumn colname="lastname" handler={sortHandler} stateVar={querySortOrder} />
+                            <OrderColumn colname="lastname" handler={sortHandler} currentValue={querySortOrder} />
                         </th>
                         <th>Telephone Number</th>
                         <th>E-Mail
-                            <OrderColumn colname="email" handler={sortHandler} stateVar={querySortOrder} />
+                            <OrderColumn colname="email" handler={sortHandler} currentValue={querySortOrder} />
                         </th>
                         <th>Street</th>
                         <th>City</th>

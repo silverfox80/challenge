@@ -1,5 +1,6 @@
+common
 doc
+install_notes.txt
+api/node_modules
 client/node_modules
 client/.next
-api/node_modules
-install_notes.txt

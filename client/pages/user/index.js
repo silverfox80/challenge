@@ -12,7 +12,8 @@ const UserPage = (props) => {
     }
     //Menu bar component customization
     const links = [
-        { label: 'Home Page', href: '/', icon:'house' }
+        { label: 'Home Page', href: '/', icon:'house' },
+        { label: 'Add a new user', href: '/user/create', icon:'person-plus' }
     ];
     //
     const [isLoading, setLoading] = useState(false); //State for the loading indicator
@@ -42,7 +43,7 @@ const UserPage = (props) => {
         }
         return (
             <tr key={user.id}>
-                <td>{user.name}</td>
+                <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.email}</td>  
                 <td>                   

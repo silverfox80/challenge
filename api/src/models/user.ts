@@ -4,7 +4,7 @@ import { Password } from '../helpers/password';
 //TS and moongose have some problems to work together so we are going to create some interface to solve these issues
 // An interface that describe the properties required to create a new User
 interface UserAttrs {
-    name: string;
+    firstname: string;
     lastname: string;
     email: string;
     password: string;
@@ -15,7 +15,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 // An interface that describe the properties that a User Document has
 interface UserDoc extends mongoose.Document {
-    name: string;
+    firstname: string;
     lastname: string;
     email: string;
     password: string;
@@ -23,7 +23,7 @@ interface UserDoc extends mongoose.Document {
 }
 
 const userSchema = new mongoose.Schema({
-    name: {
+    firstname: {
         type: String
     },
     lastname: {

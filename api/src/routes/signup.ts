@@ -1,6 +1,6 @@
 import express, { Request, Response} from 'express';      
-import { body,validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/request-validation-error';
+import { body } from 'express-validator';
+import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.post("/api/users/signup", [
-        body("name"),
+        body("firstname"),
         body("lastname"),
         body("email")
             .isEmail()
@@ -18,23 +18,17 @@ router.post("/api/users/signup", [
             .isLength({ min:4, max: 20 })
             .withMessage('Password must be between 4 and 20 chars')
     ],
+    validateRequest,
     async (req: Request, res: Response) => {
-        
-        //this could go into a middleware
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            throw new RequestValidationError(errors.array());
-            //return res.status(400).send(errors.array());
-        }
         //        
-        const { name,lastname,email,password } = req.body;
+        const { firstname,lastname,email,password } = req.body;
         //First check if the email is already in use
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             throw new BadRequestError('User already exists'); 
         }
 
-        const user = User.build({name,lastname,email,password});
+        const user = User.build({ firstname,lastname,email,password });
         await user.save(); //this is needed to persistently save on db
 
         // Generate a JWT ...        

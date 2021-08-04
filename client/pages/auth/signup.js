@@ -3,7 +3,7 @@ import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
 const SignUp = () => {
-    const [name, setName] = useState('');
+    const [firstname, setFirstName] = useState('');
     const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -11,7 +11,7 @@ const SignUp = () => {
         url: '/api/users/signup',
         method: 'post',
         body: {
-            name,
+            firstname,
             lastname,
             email,
             password
@@ -31,8 +31,8 @@ const SignUp = () => {
                 <div className="form-group col-3">
                     <label className="form-label">First Name</label>
                     <input
-                    value={name}
-                    onChange= {e => setName(e.target.value)} 
+                    value={firstname}
+                    onChange= {e => setFirstName(e.target.value)} 
                     className="form-control" />
                 </div>
                 <div className="form-group col-3">

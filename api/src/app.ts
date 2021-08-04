@@ -7,13 +7,16 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
+
 import { customerCreateRouter } from './routes/customer-create';
 import { customerShowRouter } from './routes/customer-show';
 import { customerIndexRouter } from './routes/customer-index';
 import { customerUpdateRouter } from './routes/customer-update';
 import { customerDeleteRouter } from './routes/customer-delete';
+
 import { userIndexRouter } from './routes/user-index';
 import { userDeleteRouter } from './routes/user-delete';
+import { userCreateRouter } from './routes/user-create';
 
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-err';
@@ -41,6 +44,7 @@ app.use(customerUpdateRouter);
 app.use(customerDeleteRouter);
 app.use(userIndexRouter);
 app.use(userDeleteRouter);
+app.use(userCreateRouter);
 
 app.all('*', async (req,res) => {
     throw new NotFoundError();

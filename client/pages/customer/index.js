@@ -111,7 +111,7 @@ const CustomerPage = (props) => {
                     onChange= {e => filterHandler(e.target.value)} 
                     className="p-2 bd-highlight" />                
             </div>
-            <table className="table">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>First Name

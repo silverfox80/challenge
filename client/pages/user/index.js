@@ -1,6 +1,7 @@
 import MenuBar from '../../components/menu-bar';
 import OrderColumn from '../../components/order-column';
 import DeleteUserButton from '../../components/delete-user-button';
+import EditUserButton from '../../components/edit-user-button';
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useRouter } from 'next/router';
@@ -37,18 +38,22 @@ const UserPage = (props) => {
     }, []);
     //Conditional rendering of the user list or loading indicator
     const userList = props.users.map((user) => {
-        let btn_delete = <i className="bi bi-person-circle"> logged user</i>;
+        let btn_delete = '';
+        let btn_edit = <EditUserButton uid={user.id} />;
+        let info_logged = '';
+
         if (user.id !== props.currentUser.id) {
             btn_delete = <DeleteUserButton uid={user.id} />;
+        } else {
+            info_logged = <i className="bi bi-person-circle"> logged user</i>
         }
         return (
             <tr key={user.id}>
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.email}</td>  
-                <td>                   
-                    {btn_delete}                                                     
-                </td>           
+                <td>{info_logged}</td>  
+                <td>{btn_edit} {btn_delete}</td>        
             </tr>
         );
     });
@@ -108,7 +113,7 @@ const UserPage = (props) => {
                     onChange= {e => filterHandler(e.target.value)} 
                     className="p-2 bd-highlight" />                
             </div>
-            <table className="table">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>First Name
@@ -120,6 +125,7 @@ const UserPage = (props) => {
                         <th>E-Mail
                             <OrderColumn colname="email" handler={sortHandler} currentValue={querySortOrder} />
                         </th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>

@@ -13,7 +13,7 @@ it('returns a 401 if the user is not authenticated', async () => {
     await request(app).get(`/api/customers/${id}`).send().expect(401); //Not Authorized
 });
 
-it('returns the customer if the customer is found', async () => {
+it('returns the customer if the customer has been found', async () => {
     const cookie = await global.getAuthCookie();
     const firstname = "Pinco";
     const lastname = "Pallo";

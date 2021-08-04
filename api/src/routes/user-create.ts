@@ -2,11 +2,13 @@ import express, { Request, Response} from 'express';
 import { body } from 'express-validator';
 import { BadRequestError } from '../errors/bad-request-error';
 import { validateRequest } from '../middlewares/validate-request';
+import { currentUser } from '../middlewares/current-user';
+import { requireAuth } from '../middlewares/require-auth';
 import { User } from '../models/user';
 
 const router = express.Router();
 
-router.post("/api/users/create", [
+router.post("/api/users/create", currentUser, requireAuth, [
     body("firstname"),
     body("lastname"),
     body("email")

@@ -23,14 +23,15 @@ const Header = ({ currentUser }) => {
     return (
         <div className="container-fluid">
             <div className="d-flex align-items-center justify-content-center">
-                <h2>Challenge Portal</h2>
+                <h2 className="ms-auto p-2 border border-dark rounded">Challenge Portal</h2>
+                <nav className="navbar navbar-light ms-auto">        
+                    <span className="border-0"><b>{loggedUser}</b></span>                      
+                    <div className="d-flex justify-content-end">
+                        <ul className="nav d-flex align-items-center">{links}</ul>
+                    </div>
+                </nav>
             </div>
-            <nav className="navbar navbar-light">        
-                <span className="border-0"><b>{loggedUser}</b></span>                      
-                <div className="d-flex justify-content-end">
-                    <ul className="nav d-flex align-items-center">{links}</ul>
-                </div>
-            </nav>
+            
         </div>
     );
 };

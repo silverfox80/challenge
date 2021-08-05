@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express';
-import { NotFoundError } from '../errors/not-found-err';
 import { Customer } from '../models/customer';
-import { currentUser } from '../middlewares/current-user';
-import { requireAuth } from '../middlewares/require-auth';
+
+import { NotFoundError,currentUser,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 

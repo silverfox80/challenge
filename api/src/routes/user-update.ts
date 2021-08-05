@@ -1,10 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest } from '../middlewares/validate-request';
-import { NotFoundError } from '../errors/not-found-err';
-import { currentUser } from '../middlewares/current-user';
-import { requireAuth } from '../middlewares/require-auth';
 import { User } from '../models/user';
+
+import { NotFoundError,validateRequest,currentUser,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 

@@ -1,10 +1,10 @@
 import express, { Request, Response} from 'express';    
 import { body,validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/request-validation-error';
-import { NotAuthorizedError } from '../errors/not-authorized-error';
 import { User } from '../models/user';
 import { Password } from '../helpers/password'
 import jwt from 'jsonwebtoken';
+
+import { NotAuthorizedError,RequestValidationError } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 

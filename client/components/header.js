@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import faker from 'faker';
 
 const Header = ({ currentUser }) => {
     const links = [
@@ -23,15 +22,14 @@ const Header = ({ currentUser }) => {
     return (
         <div className="container-fluid">
             <div className="d-flex align-items-center justify-content-center">
+                <span className="p-2"><b>{loggedUser}</b></span>  
                 <h2 className="ms-auto p-2 border border-dark rounded">Challenge Portal</h2>
-                <nav className="navbar navbar-light ms-auto">        
-                    <span className="border-0"><b>{loggedUser}</b></span>                      
+                <nav className="navbar navbar-light ms-auto">
                     <div className="d-flex justify-content-end">
                         <ul className="nav d-flex align-items-center">{links}</ul>
                     </div>
                 </nav>
-            </div>
-            
+            </div>            
         </div>
     );
 };

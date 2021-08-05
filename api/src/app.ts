@@ -20,8 +20,7 @@ import { userIndexRouter } from './routes/user-index';
 import { userUpdateRouter } from './routes/user-update';
 import { userDeleteRouter } from './routes/user-delete';
 
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-err';
+import { NotFoundError,errorHandler } from '@s1lv3rf0x/common';
 
 const app = express();
 app.set('trust proxy',true); //to make sure that express understands that is behind a proxy of Ingress nginx and still trust the traffic as secure

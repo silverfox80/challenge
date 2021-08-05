@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Customer } from '../models/customer';
-import { currentUser } from '../middlewares/current-user';
-import { requireAuth } from '../middlewares/require-auth';
+
+import { currentUser,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 

@@ -2,18 +2,18 @@ import mongoose from 'mongoose';
 import { Password } from '../helpers/password';
 
 //TS and moongose have some problems to work together so we are going to create some interface to solve these issues
-// An interface that describe the properties required to create a new User
+// An interface that describe the properties REQUIRED to create a new User
 interface UserAttrs {
     firstname: string;
     lastname: string;
     email: string;
     password: string;
 }
-// An interface that describe the properties that a User Model has
+// An interface that describes the properties that a User Model has
 interface UserModel extends mongoose.Model<UserDoc> {
     build(attrs: UserAttrs): UserDoc;
 }
-// An interface that describe the properties that a User Document has
+// An interface that describes the properties that a User Document has
 interface UserDoc extends mongoose.Document {
     firstname: string;
     lastname: string;
@@ -22,9 +22,9 @@ interface UserDoc extends mongoose.Document {
     /* here we can extra properties that maybe Mongo can automatically add on like (created_at, updated_at, etc)*/
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UserDoc>({
     firstname: {
-        type: String
+        type: String        //String is from mongoose and not typescipt here!
     },
     lastname: {
         type: String
@@ -69,6 +69,6 @@ userSchema.statics.build = (attrs: UserAttrs) => {
     return new User(attrs);
 };
 
-const User = mongoose.model<UserDoc,UserModel>('User', userSchema);
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };

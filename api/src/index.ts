@@ -6,10 +6,12 @@ const start = async () => {
     if(!process.env.JWT_KEY){        
         throw new Error('JWT_KEY is missing from env');
     }
+    if(!process.env.MONGO_URI){        
+        throw new Error('MONGO_URI is missing from env');
+    }
 
     try{
-        //mongodb://emmachallenge.dev:32122 for external connections - MongoDb ver. 4.4
-        await mongoose.connect('mongodb://api-mongo-srv:27017/api', {
+        await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: api-mongo
 spec:
-  replicas: 1
+  replicas: 2
   serviceName: 'api-mongo'
   selector:
     matchLabels:
@@ -25,6 +25,13 @@ spec:
           volumeMounts:
             - mountPath: "/data/db"
               name: task-pv-storage
+          resources: 
+            requests:
+              cpu: "50m"
+              memory: "128Mi"              
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service

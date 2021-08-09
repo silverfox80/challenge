@@ -15,6 +15,9 @@ spec:
       containers:
         - name: client
           image: fabianosbaratta/client
+          resources:             
+            limits:
+              memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service

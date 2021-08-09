@@ -30,7 +30,7 @@ interface CustomerDoc extends mongoose.Document {
     active: boolean;    
 }
 
-const customerSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema<CustomerDoc>({
     firstname: {
         type: String,
         required: true

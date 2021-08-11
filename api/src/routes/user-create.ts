@@ -2,11 +2,11 @@ import express, { Request, Response} from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
 
-import { BadRequestError,validateRequest,currentUser,requireAuth } from '@s1lv3rf0x/common';
+import { BadRequestError,validateRequest,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 
-router.post("/api/users/create", currentUser, requireAuth, [
+router.post("/api/users/create", requireAuth, [
     body("firstname"),
     body("lastname"),
     body("email")

@@ -5,11 +5,7 @@ import { app } from '../app';
 
 //Typescript need to know that there is a global property called signin
 declare global {
-    namespace NodeJS {
-        interface Global {
-            getAuthCookie(): Promise<string[]>; // a Promise that resolve with a cookie (string[])
-        }
-    }
+    var getAuthCookie: () => Promise<string[]>; // a Promise that resolve with a cookie (string[])
 }
 
 let mongo: any;

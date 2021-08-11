@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import { Customer } from '../models/customer';
 
-import { currentUser,requireAuth } from '@s1lv3rf0x/common';
+import { requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 
-router.get('/api/customers/', currentUser, requireAuth, async (req: Request, res: Response) => {
+router.get('/api/customers/', requireAuth, async (req: Request, res: Response) => {
   
   let pageNumber:number = req.query.page ? parseInt ( req.query.page as string ) : 1;
   let searchString:string = req.query.search ? req.query.search as string : '';

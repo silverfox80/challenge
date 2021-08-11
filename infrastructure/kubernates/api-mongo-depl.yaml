@@ -5,7 +5,7 @@ metadata:
   labels:
     app: api-mongo
 spec:
-  replicas: 2
+  replicas: 1
   serviceName: 'api-mongo'
   selector:
     matchLabels:

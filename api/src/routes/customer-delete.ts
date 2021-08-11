@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import { Customer } from '../models/customer';
 
-import { NotFoundError,currentUser,requireAuth } from '@s1lv3rf0x/common';
+import { NotFoundError,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 
-router.delete('/api/customers/:id', currentUser, requireAuth, async (req: Request, res: Response) => {
+router.delete('/api/customers/:id', requireAuth, async (req: Request, res: Response) => {
   const customer = await Customer.findById(req.params.id);
 
   if (!customer) {

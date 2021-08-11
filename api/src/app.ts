@@ -20,7 +20,7 @@ import { userIndexRouter } from './routes/user-index';
 import { userUpdateRouter } from './routes/user-update';
 import { userDeleteRouter } from './routes/user-delete';
 
-import { NotFoundError,errorHandler } from '@s1lv3rf0x/common';
+import { NotFoundError,errorHandler,currentUser } from '@s1lv3rf0x/common';
 
 const app = express();
 app.set('trust proxy',true); //to make sure that express understands that is behind a proxy of Ingress nginx and still trust the traffic as secure
@@ -32,7 +32,8 @@ app.use(
         //cookie will only be used if a user is visiting the application on a https connection (secure: true)
         secure: process.env.NODE_ENV !== 'test'  //this way we set to false if we are in a test env
     })
-)
+);
+app.use(currentUser);
 //Routes
 app.use(currentUserRouter);
 app.use(signinRouter);

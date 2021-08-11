@@ -2,13 +2,12 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../models/user';
 
-import { NotFoundError,validateRequest,currentUser,requireAuth } from '@s1lv3rf0x/common';
+import { NotFoundError,validateRequest,requireAuth } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 
 router.put(
   '/api/users/:id',
-  currentUser,
   requireAuth,
   [
     body("firstname")

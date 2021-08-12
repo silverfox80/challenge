@@ -35,9 +35,19 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
+const generatePassword = () => {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
 global.getAuthCookie = async () => {
     const email = 'test@test.it';
-    const password = 'password';
+    const password = generatePassword();
   
     const response = await request(app)
       .post('/api/users/signup')

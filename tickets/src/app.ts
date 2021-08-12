@@ -6,6 +6,9 @@ import cookieSession from 'cookie-session'; // we are going to store a JWT insid
 import { NotFoundError,errorHandler,currentUser } from '@s1lv3rf0x/common';
 
 import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
+import { updateTicketRouter } from './routes/update';
+import { indexTicketRouter } from './routes/index';
 
 const app = express();
 app.set('trust proxy',true); //to make sure that express understands that is behind a proxy of Ingress nginx and still trust the traffic as secure
@@ -21,7 +24,10 @@ app.use(
 app.use(currentUser);
 //Routes
 app.use(createTicketRouter);
-
+app.use(showTicketRouter);
+app.use(updateTicketRouter);
+app.use(indexTicketRouter);
+//...everything else will go here...
 app.all('*', async (req,res) => {
     throw new NotFoundError();
 });

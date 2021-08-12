@@ -40,7 +40,7 @@ global.getAuthCookie = () => {
     // We cannot call the AUTH service from here, otherwise we create a direct dependency between the two services.
     // Build a JWT payload. { id, email }
     const payload = {
-        id: 'cwkjkjekjwwhb2',
+        id: new mongoose.Types.ObjectId().toHexString(),
         email: 'test@test.com'
     }
     // Create the JWT

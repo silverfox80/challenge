@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
 
-import { NotFoundError,validateRequest,requireAuth } from '@s1lv3rf0x/common';
+import { NotFoundError,validateRequest,requireAuth, NotAuthorizedError } from '@s1lv3rf0x/common';
 
 const router = express.Router();
 
@@ -24,6 +24,10 @@ router.put(
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
     }
 
     ticket.set({

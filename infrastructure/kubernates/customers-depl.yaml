@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-depl
+  name: customers-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: customers
   template:
     metadata:
       labels:
-        app: api
+        app: customers
     spec:
       containers:
-        - name: api
-          image: fabianosbaratta/api
+        - name: customers
+          image: fabianosbaratta/customers
           env:
             - name: MONGO_URI
-              value: 'mongodb://api-mongo-srv:27017/api'
+              value: 'mongodb://customers-mongo-srv:27017/customers'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -30,12 +30,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-srv
+  name: customers-srv
 spec:
   selector:
-    app: api
+    app: customers
   ports:
-    - name: api
+    - name: customers
       protocol: TCP
       port: 3000
       targetPort: 3000

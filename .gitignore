@@ -1,7 +1,8 @@
 common
 doc
 install_notes.txt
-api/node_modules
+auth/node_modules
+customers/node_modules
+tickets/node_modules
 client/node_modules
 client/.next
-tickets/node_modules

@@ -19,7 +19,7 @@ it('returns a 401 for unauthorized access', async () => {
 
 it('returns a 400 on bad request (invalid parameter) on customer creation', async () => {
 
-  const cookie = await global.getAuthCookie();
+  const cookie = global.getAuthCookie();
   
   await request(app)
     .post('/api/customers')
@@ -39,7 +39,7 @@ it('returns a 400 on bad request (invalid parameter) on customer creation', asyn
 
 it('returns a 201 on successful customer creation', async () => {
 
-  const cookie = await global.getAuthCookie();
+  const cookie = global.getAuthCookie();
 
   await request(app)
     .post('/api/customers')

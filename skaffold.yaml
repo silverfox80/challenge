@@ -8,8 +8,8 @@ build:
   local:
     push: false
   artifacts:
-    - image: fabianosbaratta/api
-      context: api
+    - image: fabianosbaratta/auth
+      context: auth
       docker:
         dockerfile: Dockerfile
       sync:
@@ -23,6 +23,14 @@ build:
       sync:
         manual:
           - src: '**/*.js'
+            dest: .
+    - image: fabianosbaratta/customers
+      context: customers
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
             dest: .
     - image: fabianosbaratta/tickets
       context: tickets

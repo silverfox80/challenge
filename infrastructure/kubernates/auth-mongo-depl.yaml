@@ -1,30 +1,32 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: api-mongo-depl
+  name: auth-mongo-depl
   labels:
-    app: api-mongo
+    app: auth-mongo
 spec:
   replicas: 1
-  serviceName: 'api-mongo'
+  serviceName: 'auth-mongo'
   selector:
     matchLabels:
-      app: api-mongo
+      role: mongo
+      app: auth-mongo
   template:
     metadata:
       labels:
-        app: api-mongo
+        role: mongo
+        app: auth-mongo
     spec:
       volumes:
-        - name: task-pv-storage
+        - name: auth-pv-storage
           persistentVolumeClaim:
-            claimName: task-pv-claim
+            claimName: auth-pv-claim
       containers:
-        - name: api-mongo
+        - name: auth-mongo
           image: mongo
           volumeMounts:
             - mountPath: "/data/db"
-              name: task-pv-storage
+              name: auth-pv-storage
           resources: 
             requests:
               cpu: "50m"
@@ -36,11 +38,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-mongo-srv
+  name: auth-mongo-srv
 spec:
-  type: LoadBalancer
   selector:
-    app: api-mongo
+    app: auth-mongo
   ports:
     - name: db
       protocol: TCP

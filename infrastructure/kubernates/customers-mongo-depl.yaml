@@ -1,30 +1,32 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: tickets-mongo-depl
+  name: customers-mongo-depl
   labels:
-    app: tickets-mongo
+    app: customers-mongo
 spec:
   replicas: 1
-  serviceName: 'tickets-mongo'
+  serviceName: 'customers-mongo'
   selector:
     matchLabels:
-      app: tickets-mongo
+      role: mongo
+      app: customers-mongo
   template:
     metadata:
       labels:
-        app: tickets-mongo
+        role: mongo
+        app: customers-mongo
     spec:
       volumes:
-        - name: tickets-pv-storage
+        - name: customers-pv-storage
           persistentVolumeClaim:
-            claimName: tickets-pv-claim
+            claimName: customers-pv-claim
       containers:
-        - name: tickets-mongo
+        - name: customers-mongo
           image: mongo
           volumeMounts:
             - mountPath: "/data/db"
-              name: tickets-pv-storage
+              name: customers-pv-storage
           resources: 
             requests:
               cpu: "50m"
@@ -36,10 +38,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tickets-mongo-srv
+  name: customers-mongo-srv
 spec:
   selector:
-    app: tickets-mongo
+    app: customers-mongo
   ports:
     - name: db
       protocol: TCP

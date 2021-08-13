@@ -68,12 +68,18 @@ minikube addons enable ingress
 ### Set a secret on kubernates to store the jwt key
 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=****
 
-### Create a persistent volume
-kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-volume.yaml 
+### Create the persistent volumes
+### kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-volume.yaml 
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/auth-pv-volume.yaml 
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/customers-pv-volume.yaml 
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/tickets-pv-volume.yaml 
 #### - check with "kubectl get pv task-pv-volume"
 
-### Create a peristent volume claim
-kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-claim.yaml
+### Create the persistent volume claims
+### kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-claim.yaml
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/auth-pv-claim.yaml 
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/customers-pv-claim.yaml 
+kubectl apply -f challenge-portal/infrastructure/persistent-volume/tickets-pv-claim.yaml 
 #### - check again with "kubectl get pv task-pv-volume" that the status is "bound"
 #### - "kubectl get pvc task-pv-claim" will show the claim bounded to the volume
 

@@ -70,15 +70,19 @@ kubectl create secret generic jwt-secret --from-literal=JWT_KEY=****
 
 ### Create the persistent volumes
 ### kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-volume.yaml 
-kubectl apply -f challenge-portal/infrastructure/persistent-volume/auth-pv-volume.yaml 
-kubectl apply -f challenge-portal/infrastructure/persistent-volume/customers-pv-volume.yaml 
-kubectl apply -f challenge-portal/infrastructure/persistent-volume/tickets-pv-volume.yaml 
+kubectl apply -f infrastructure/persistent-volume/auth-pv-volume.yaml 
+
+kubectl apply -f infrastructure/persistent-volume/customers-pv-volume.yaml 
+
+kubectl apply -f infrastructure/persistent-volume/tickets-pv-volume.yaml 
 #### - check with "kubectl get pv task-pv-volume"
 
-### Create the persistent volume claims
+### Create the volume claims
 ### kubectl apply -f PROJECT-FOLDER/infrastructure/pv/pv-claim.yaml
 kubectl apply -f challenge-portal/infrastructure/persistent-volume/auth-pv-claim.yaml 
+
 kubectl apply -f challenge-portal/infrastructure/persistent-volume/customers-pv-claim.yaml 
+
 kubectl apply -f challenge-portal/infrastructure/persistent-volume/tickets-pv-claim.yaml 
 #### - check again with "kubectl get pv task-pv-volume" that the status is "bound"
 #### - "kubectl get pvc task-pv-claim" will show the claim bounded to the volume
@@ -95,9 +99,11 @@ skaffold dev
 ####   kubectl get pv,pvc
 ####   kubectl describe pv,pvc
 ####   kubectl delete pvc --all 
-####   kubectl port-forward api-mongo-depl-0 27017:27017
+####   kubectl port-forward auth-mongo-depl-0 27017:27017
 
 ### Install metrics-server
 wget https://raw.githubusercontent.com/pythianarora/total-practice/master/sample-kubernetes-code/metrics-server.yaml
 kubectl create -f metrics-server.yaml
 kubectl top pods --use-protocol-buffers
+
+### Install NATS Streaming Server (https://hub.docker.com/_/nats-streaming)

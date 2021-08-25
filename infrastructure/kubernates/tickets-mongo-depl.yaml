@@ -25,13 +25,13 @@ spec:
           volumeMounts:
             - mountPath: "/data/db"
               name: tickets-pv-storage
-          resources: 
-            requests:
-              cpu: "50m"
-              memory: "128Mi"              
-            limits:
-              cpu: "100m"
-              memory: "256Mi"
+          # resources: 
+          #   requests:
+          #     cpu: "50m"
+          #     memory: "128Mi"              
+          #   limits:
+          #     cpu: "100m"
+          #     memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service

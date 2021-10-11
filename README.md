@@ -107,3 +107,4 @@ kubectl create -f metrics-server.yaml
 kubectl top pods --use-protocol-buffers
 
 ### Install NATS Streaming Server (https://hub.docker.com/_/nats-streaming)
+## To communicate data between services using a lightning-fast event bus

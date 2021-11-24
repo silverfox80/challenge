@@ -1,0 +1,10 @@
+@font-face
+{
+    font-family: customFont;
+    src: url(../fonts/orange_juice_2_0.ttf);
+}
+
+.title
+{
+    font-family: customFont;
+}

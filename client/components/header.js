@@ -23,7 +23,7 @@ const Header = ({ currentUser }) => {
         <div className="container-fluid">
             <div className="d-flex align-items-center justify-content-center">
                 <span className="p-2"><b>{loggedUser}</b></span>  
-                <h2 className="ms-auto p-2 border border-dark rounded">Challenge Portal</h2>
+                <h2 className="ms-auto p-2 title">Challenge Portal</h2>
                 <nav className="navbar navbar-light ms-auto">
                     <div className="d-flex justify-content-end">
                         <ul className="nav d-flex align-items-center">{links}</ul>
